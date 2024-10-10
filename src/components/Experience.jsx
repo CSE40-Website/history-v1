@@ -4,14 +4,21 @@ export const Experience = () => {
   return (
     <>
       <Float
-        rotation-x={-Math.PI / 4}
+        rotation-x={-Math.PI / 10}
         floatIntensity={1}
         speed={2}
-        rotationIntensity={2}
+        rotationIntensity={-1}
       >
         <Book />
       </Float>
-      <OrbitControls />
+
+      <OrbitControls
+        enableRotate={false}
+        enableZoom={true}
+        enablePan={false}
+        minDistance={2} // Set your desired zoom limits
+        maxDistance={10}
+      />
       <Environment preset="studio"></Environment>
       <directionalLight
         position={[2, 5, 2]}

@@ -22,12 +22,12 @@ import { pageAtom, pages } from "./UI";
 const easingFactor = 0.5; // Controls the speed of the easing
 const easingFactorFold = 0.3; // Controls the speed of the easing
 const insideCurveStrength = 0.18; // Controls the strength of the curve
-const outsideCurveStrength = 0.05; // Controls the strength of the curve
+const outsideCurveStrength = 0.03; // Controls the strength of the curve
 const turningCurveStrength = 0.09; // Controls the strength of the curve
 
-const PAGE_WIDTH = 1.28;
-const PAGE_HEIGHT = 1.71; // 4:3 aspect ratio
-const PAGE_DEPTH = 0.003;
+const PAGE_WIDTH = 1.4;
+const PAGE_HEIGHT = 1.8; // 4:3 aspect ratio
+const PAGE_DEPTH = 0.008;
 const PAGE_SEGMENTS = 30;
 const SEGMENT_WIDTH = PAGE_WIDTH / PAGE_SEGMENTS;
 
