@@ -1,4 +1,4 @@
-import { useCursor, useTexture } from "@react-three/drei";
+import { useCursor, useTexture, Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import { easing } from "maath";
@@ -91,7 +91,16 @@ pages.forEach((page) => {
   useTexture.preload(`/textures/book-cover-roughness.jpg`);
 });
 
-const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
+const Page = ({
+  number,
+  front,
+  back,
+  page,
+  opened,
+  bookClosed,
+  description,
+  ...props
+}) => {
   const [picture, picture2, pictureRoughness] = useTexture([
     `/textures/${front}.jpg`,
     `/textures/${back}.jpg`,
@@ -233,6 +242,10 @@ const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
 
   const [_, setPage] = useAtom(pageAtom);
   const [highlighted, setHighlighted] = useState(false);
+
+  const isPageVisible =
+    page === number && number !== 0 && number !== pages.length; // Ensure description doesn't show on cover pages
+
   useCursor(highlighted);
 
   return (
@@ -258,6 +271,75 @@ const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
         ref={skinnedMeshRef}
         position-z={-number * PAGE_DEPTH + page * PAGE_DEPTH}
       />
+      {isPageVisible && (
+        <>
+          {/* First HTML element */}
+          <Html position={[0, PAGE_HEIGHT / 2 - 0.5, 2.1]} distanceFactor={3}>
+            <div
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.6)",
+                padding: "20px",
+                borderRadius: "8px",
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
+                textAlign: "center",
+                width: "350px",
+                position: "relative",
+                border: "1px solid #333",
+              }}
+            >
+              <p>{description[0]}</p>
+
+              {/* Arrow on the right side */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  right: "-20px",
+                  width: "0",
+                  height: "0",
+                  borderTop: "10px solid transparent",
+                  borderBottom: "10px solid transparent",
+                  borderLeft: "20px solid #333",
+                  transform: "translateY(-50%)",
+                }}
+              ></div>
+            </div>
+          </Html>
+
+          {/* Second HTML element */}
+          <Html position={[0, PAGE_HEIGHT / 2 - 0.2, -1.2]} distanceFactor={3}>
+            <div
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.6)",
+                padding: "20px",
+                borderRadius: "8px",
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
+                textAlign: "center",
+                width: "350px",
+                position: "relative",
+                border: "1px solid #333",
+              }}
+            >
+              <p>{description[1]}</p>
+
+              {/* Arrow on the right side */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "-20px",
+                  width: "0",
+                  height: "0",
+                  borderTop: "10px solid transparent",
+                  borderBottom: "10px solid transparent",
+                  borderRight: "20px solid #333",
+                  transform: "translateY(-50%)",
+                }}
+              ></div>
+            </div>
+          </Html>
+        </>
+      )}
     </group>
   );
 };
@@ -303,6 +385,7 @@ export const Book = ({ ...props }) => {
           number={index}
           opened={delayedPage > index}
           bookClosed={delayedPage === 0 || delayedPage === pages.length}
+          description={pageData.description}
           {...pageData}
         />
       ))}
